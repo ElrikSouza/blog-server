@@ -27,8 +27,13 @@ export class UsersService {
     await this.usersRepository.insert(user);
   }
 
-  async doesUserExist(email: string): Promise<boolean> {
-    const count = await this.usersRepository.count({ where: { email } });
+  async doesUserExist({
+    email,
+    username,
+  }: Pick<User, 'email' | 'username'>): Promise<boolean> {
+    const count = await this.usersRepository.count({
+      where: [{ email }, { username }],
+    });
 
     return count > 0;
   }
