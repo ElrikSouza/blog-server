@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import * as Env from './env';
 
 @Module({
@@ -14,6 +15,7 @@ import * as Env from './env';
       url: Env.DB_CONN,
       entities: [User],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
