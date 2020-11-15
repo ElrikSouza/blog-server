@@ -8,10 +8,7 @@ import { compare, hash } from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
-
-interface Token {
-  token: string;
-}
+import { Token } from './token';
 
 @Injectable()
 export class AuthService {
