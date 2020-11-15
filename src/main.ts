@@ -4,10 +4,12 @@ import * as Env from './env';
 import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as rate_limit from 'express-rate-limit';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({ origin: Env.ALLOWED_ORIGINS });
+  app.set('trust proxy', 1);
   app.use(helmet());
   app.use(compression());
   app.use(
