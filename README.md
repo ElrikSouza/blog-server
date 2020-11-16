@@ -2,7 +2,7 @@
 
 ## Authentication Endpoints
 
-### POST /log_in
+### POST auth/login
 
     input {
     	@Max(254)
@@ -18,7 +18,7 @@
     	token: "jwt string containing your username and _id",
     }
 
-### POST /sign_up
+### POST auth/sign_up
 
     input {
     	@Max(254)
