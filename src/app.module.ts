@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
 import * as Env from './env';
+import { Post } from './posts/post.entity';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import * as Env from './env';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: Env.DB_CONN,
-      entities: [User],
+      entities: [User, Post],
     }),
     AuthModule,
     PostsModule,
