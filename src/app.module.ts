@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { PostsModule } from './posts/posts.module';
 import * as Env from './env';
 
 @Module({
@@ -16,6 +17,7 @@ import * as Env from './env';
       entities: [User],
     }),
     AuthModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
