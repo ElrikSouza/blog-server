@@ -17,7 +17,6 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dtos/create-post.dto';
 
 @Controller('posts')
-@UseGuards(JwtAuthGuard)
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
@@ -36,6 +35,7 @@ export class PostsController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   public async addOne(
     @UserId() userId: string,
     @Body(new ValidationPipe({ whitelist: true })) post: CreatePostDto,
@@ -46,6 +46,7 @@ export class PostsController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   public async updateOne(
     @Param('id', ParseUUIDPipe) postId: string,
     @UserId() userId: string,
@@ -57,6 +58,7 @@ export class PostsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   public async deleteOne(
     @Param('id', ParseUUIDPipe) postId: string,
     @UserId() userId: string,
