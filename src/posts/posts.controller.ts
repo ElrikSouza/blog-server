@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Query,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,14 +16,15 @@ import { JwtAuthGuard } from '../auth/jwt.guard';
 import { UpdatePostDto } from './dtos/update-post.dto';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dtos/create-post.dto';
+import { PostQuery } from './dtos/post-query';
 
 @Controller('posts')
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @Get()
-  public async getAll() {
-    const posts = await this.postsService.getAll();
+  public async getAll(@Query(ValidationPipe) postQuery: PostQuery) {
+    const posts = await this.postsService.getAll(postQuery);
 
     return { posts };
   }

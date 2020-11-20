@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { CreatePostDto } from './dtos/create-post.dto';
+import { PostQuery } from './dtos/post-query';
 import { UpdatePostDto } from './dtos/update-post.dto';
 import { PostIdUserIdPair } from './post-id-user-id-pair';
 import { PostsDataService } from './posts-data/posts-data.service';
@@ -13,8 +14,8 @@ export class PostsService {
     private postsPermissionsService: PostsPermissionsService,
   ) {}
 
-  async getAll() {
-    const posts = await this.postsDataService.findAll();
+  async getAll(postQuery: PostQuery) {
+    const posts = await this.postsDataService.findAll(postQuery);
 
     return posts;
   }

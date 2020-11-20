@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { PostQuery } from '../dtos/post-query';
 import { UpdatePostDto } from '../dtos/update-post.dto';
 import { Post } from '../post.entity';
 
@@ -19,8 +20,20 @@ export class PostsDataService {
     return post?.user_id;
   }
 
-  async findAll() {
-    return this.postsRepository.find();
+  async findAll(postQuery: PostQuery) {
+    let query = this.postsRepository
+      .createQueryBuilder('post')
+      .select('post')
+      .innerJoin('post.user', 'user')
+      .addSelect(['user.username', 'user._id']);
+
+    if (postQuery.userIdFilter) {
+      query = query.where('user_id = :userId', {
+        userId: postQuery.userIdFilter,
+      });
+    }
+
+    return query.getMany();
   }
 
   async findOneById(postId: string): Promise<Post | undefined> {
