@@ -37,7 +37,7 @@ export class PostsDataService {
     }
 
     if (postQuery.userIdFilter) {
-      query = query.where('user_id = :userId', {
+      query = query.andWhere('user_id = :userId', {
         userId: postQuery.userIdFilter,
       });
     }
