@@ -23,7 +23,9 @@ export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @Get()
-  public async getAll(@Query(ValidationPipe) postQuery: PostQuery) {
+  public async getAll(
+    @Query(new ValidationPipe({ transform: true })) postQuery: PostQuery,
+  ) {
     const posts = await this.postsService.getAll(postQuery);
 
     return { posts };

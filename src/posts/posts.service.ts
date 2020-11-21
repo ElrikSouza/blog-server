@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { createDataPage } from '../pagination/data-page';
 import { v4 as uuidv4 } from 'uuid';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { PostQuery } from './dtos/post-query';
@@ -16,8 +17,9 @@ export class PostsService {
 
   async getAll(postQuery: PostQuery) {
     const posts = await this.postsDataService.findAll(postQuery);
+    const postPage = createDataPage(posts, postQuery.limit);
 
-    return posts;
+    return postPage;
   }
 
   async getOne(postId: string) {

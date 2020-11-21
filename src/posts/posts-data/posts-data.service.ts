@@ -27,13 +27,22 @@ export class PostsDataService {
       .innerJoin('post.user', 'user')
       .addSelect(['user.username', 'user._id']);
 
+    if (postQuery.params) {
+      query = query
+        .where('(post.created_at) < (:stamp) or (post._id) = :id', {
+          stamp: postQuery.params.timestamp,
+          id: postQuery.params.initial_id,
+        })
+        .orderBy('created_at', 'DESC');
+    }
+
     if (postQuery.userIdFilter) {
       query = query.where('user_id = :userId', {
         userId: postQuery.userIdFilter,
       });
     }
 
-    return query.getMany();
+    return query.limit(postQuery.limit + 1).getMany();
   }
 
   async findOneById(postId: string): Promise<Post | undefined> {
