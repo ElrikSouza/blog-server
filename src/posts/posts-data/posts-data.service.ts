@@ -23,7 +23,13 @@ export class PostsDataService {
   async findAll(postQuery: PostQuery) {
     let query = this.postsRepository
       .createQueryBuilder('post')
-      .select('post')
+      .select([
+        'post._id',
+        'post.title',
+        'post.body',
+        'post.created_at',
+        'post.updated_at',
+      ])
       .innerJoin('post.user', 'user')
       .addSelect(['user.username', 'user._id']);
 
@@ -45,8 +51,20 @@ export class PostsDataService {
     return query.limit(postQuery.limit + 1).getMany();
   }
 
-  async findOneById(postId: string): Promise<Post | undefined> {
-    return this.postsRepository.findOne({ _id: postId });
+  async findOneById(postId: string) {
+    return this.postsRepository
+      .createQueryBuilder('post')
+      .select([
+        'post._id',
+        'post.title',
+        'post.body',
+        'post.created_at',
+        'post.updated_at',
+      ])
+      .innerJoin('post.user', 'user')
+      .addSelect(['user.username', 'user._id'])
+      .where({ _id: postId })
+      .getOne();
   }
 
   async findOneOrFail(postId: string): Promise<Post> {
