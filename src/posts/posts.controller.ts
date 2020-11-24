@@ -44,9 +44,9 @@ export class PostsController {
     @UserId() userId: string,
     @Body(new ValidationPipe({ whitelist: true })) post: CreatePostDto,
   ) {
-    await this.postsService.add(post, userId);
+    const newPostId = await this.postsService.add(post, userId);
 
-    return { message: 'The requested post has been created' };
+    return { message: 'The requested post has been created', newPostId };
   }
 
   @Put(':id')

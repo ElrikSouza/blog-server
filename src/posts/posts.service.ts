@@ -29,11 +29,15 @@ export class PostsService {
   }
 
   async add(post: CreatePostDto, userId: string) {
+    const postId = uuidv4();
+
     await this.postsDataService.add({
       ...post,
-      _id: uuidv4(),
+      _id: postId,
       user_id: userId,
     });
+
+    return postId;
   }
 
   async update(
